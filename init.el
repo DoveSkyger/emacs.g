@@ -1,6 +1,24 @@
 ;;; init.el --- user-init-file                    -*- lexical-binding: t -*-
+;;; Commentary:
+;;; Code:
+
 ;;; Early birds
-(progn ;     startup
+
+;; Produce backtraces when errors occur: can be helpful to diagnose startup issues
+;; (setq debug-on-error t)
+
+(defconst *spell-check-support-enabled* t) ;; Enable with t if you prefer
+(defconst *is-a-mac* (eq system-type 'darwin))
+
+;; Adjust garbage collection thresholds during startup, and thereafter
+
+(let ((normal-gc-cons-threshold (* 20 1024 1024))
+      (init-gc-cons-threshold (* 128 1024 1024)))
+  (setq gc-cons-threshold init-gc-cons-threshold)
+  (add-hook 'emacs-startup-hook
+            (lambda () (setq gc-cons-threshold normal-gc-cons-threshold))))
+
+(progn ; `startup'
   (defvar before-user-init-time (current-time)
     "Value of `current-time' when Emacs begins loading `user-init-file'.")
   (message "Loading Emacs...done (%.3fs)"
@@ -65,7 +83,7 @@
   :commands (server-running-p)
   :config (or (server-running-p) (server-mode)))
 
-(progn ;     startup
+(progn ; `startup'
   (message "Loading early birds...done (%.3fs)"
            (float-time (time-subtract (current-time)
                                       before-user-init-time))))
@@ -98,7 +116,7 @@
   :defer t
   :config (temp-buffer-resize-mode))
 
-(progn ;    `isearch'
+(progn ; `isearch'
   (setq isearch-allow-scroll t))
 
 (use-package lisp-mode
@@ -152,7 +170,7 @@
     (set-face-attribute 'smerge-refined-removed nil :extend t)
     (set-face-attribute 'smerge-refined-added   nil :extend t)))
 
-(progn ;    `text-mode'
+(progn ; `text-mode'
   (add-hook 'text-mode-hook 'indicate-buffer-boundaries-left))
 
 (use-package tramp
@@ -173,7 +191,7 @@
 
 ;;; Tequila worms
 
-(progn ;     startup
+(progn ; `startup'
   (message "Loading %s...done (%.3fs)" user-init-file
            (float-time (time-subtract (current-time)
                                       before-user-init-time)))
@@ -185,7 +203,7 @@
                                           before-user-init-time))))
             t))
 
-(progn ;     personalize
+(progn ; `personalize'
   (let ((file (expand-file-name (concat (user-real-login-name) ".el")
                                 user-emacs-directory)))
     (when (file-exists-p file)
@@ -193,5 +211,6 @@
 
 ;; Local Variables:
 ;; indent-tabs-mode: nil
+;; no-byte-compile: t
 ;; End:
 ;;; init.el ends here
