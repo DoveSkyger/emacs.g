@@ -11,7 +11,6 @@
 (defconst *is-a-mac* (eq system-type 'darwin))
 
 ;; Adjust garbage collection thresholds during startup, and thereafter
-
 (let ((normal-gc-cons-threshold (* 20 1024 1024))
       (init-gc-cons-threshold (* 128 1024 1024)))
   (setq gc-cons-threshold init-gc-cons-threshold)
@@ -51,17 +50,6 @@
   (require  'use-package)
   (setq use-package-verbose t))
 
-;; Set up exec-path to help Emacs find programs
-(use-package exec-path-from-shell
-  :when (or (memq window-system '(mac ns x))
-            (unless (memq system-type '(ms-dos windows-nt))
-              (daemonp)))
-  :custom (exec-path-from-shell-arguments '("-l"))
-  :config
-  (dolist (var '("GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
-    (add-to-list 'exec-path-from-shell-variables var))
-  (exec-path-from-shell-initialize))
-
 (use-package dash
   :config (global-dash-fontify-mode))
 
@@ -98,6 +86,16 @@
   (message "Loading early birds...done (%.3fs)"
            (float-time (time-subtract (current-time)
                                       before-user-init-time))))
+
+(use-package exec-path-from-shell
+  :when (or (memq window-system '(mac ns x))
+            (unless (memq system-type '(ms-dos windows-nt))
+              (daemonp)))
+  :custom (exec-path-from-shell-arguments '("-l"))
+  :config
+  (dolist (var '("GPG_AGENT_INFO" "LANG" "LC_CTYPE"))
+    (add-to-list 'exec-path-from-shell-variables var))
+  (exec-path-from-shell-initialize))
 
 ;;; Long tail
 
