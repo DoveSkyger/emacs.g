@@ -3,4 +3,7 @@
 /custom.el
 /eln-cache
 /elpa
+/history
+/places
+/transient
 /var
