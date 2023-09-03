@@ -99,6 +99,43 @@
 
 ;;; Long tail
 
+;;; Theme
+
+(use-package emacs
+  :init
+  ;; Customization options of modus-themes.
+  (setq modus-themes-bold-constructs t
+        modus-themes-italic-constructs t
+        modus-themes-subtle-line-numbers t
+        modus-themes-syntax '(alt-syntax green-strings yellow-comments)
+        modus-themes-region '(bg-only)
+        modus-themes-links '(neutral-underline)
+        modus-themes-markup '(background italic intense)
+        modus-themes-paren-match '(bold intense)
+        modus-themes-box-buttons '(variable-pitch flat faint)
+        modus-themes-mode-line '(accented borderless)
+        modus-themes-prompts '(bold intense)
+        modus-themes-completions
+        '((matches . (extrabold))
+          (selection . (semibold accented))
+          (popup . (accented intense)))
+        modus-themes-headings
+        '((1 . (rainbow overline background 1.3))
+          (2 . (rainbow background 1.2))
+          (3 . (rainbow bold 1.1))
+          (t . (semilight)))
+        modus-themes-org-blocks 'gray-background
+        modus-themes-org-agenda
+        '((header-block . (variable-pitch 1.3))
+          (header-date . (grayscale workaholic bold-today 1.1))
+          (event . (accented varied))
+          (scheduled . uniform)
+          (habit . traffic-light)))
+  :config
+  ;; Load the theme of your choice:
+  (load-theme 'modus-operandi) ;; OR (load-theme 'modus-vivendi)
+  :bind ("<f5>" . modus-themes-toggle))
+
 (use-package diff-hl
   :config
   (setq diff-hl-draw-borders nil)
