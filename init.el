@@ -88,7 +88,7 @@
                                       before-user-init-time))))
 
 (use-package exec-path-from-shell
-  :when (or (memq window-system '(mac ns x))
+  :when (or (memq window-system '(mac ns x pgtk))
             (unless (memq system-type '(ms-dos windows-nt))
               (daemonp)))
   :custom (exec-path-from-shell-arguments '("-l"))
